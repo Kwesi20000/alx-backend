@@ -1,11 +1,8 @@
 #!/usr/bin/env python3
+"""A deletion-resilient hypermedia pagination module
 """
-A deletion-resilient hypermedia pagination module
-"""
-
 import csv
-import math
-from typing import List
+from typing import Dict, List
 
 
 class Server:
@@ -14,6 +11,8 @@ class Server:
     DATA_FILE = "Popular_Baby_Names.csv"
 
     def __init__(self):
+        """This initializes a new Server instance.
+        """
         self.__dataset = None
         self.__indexed_dataset = None
 
@@ -40,9 +39,8 @@ class Server:
         return self.__indexed_dataset
 
     def get_hyper_index(self, index: int = None, page_size: int = 10) -> Dict:
-        """
-        Function retrieves info about a page from a given index and with
-        specified size
+        """this retrieves info about a page from a given index and with a
+        specified size.
         """
         data = self.indexed_dataset()
         assert index is not None and index >= 0 and index <= max(data.keys())
