@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
+"""A Basic Flask app with module
 """
-A Basic Flask app module
-"""
-from flask import Flask, render_template, request
 from flask_babel import Babel
+from flask import Flask, render_template, request
 
 
-class Config():
-    """Class that represents a flask babel configuration"""
+class Config:
+    """class that represents a Flask Babel configuration.
+    """
     LANGUAGES = ["en", "fr"]
     BABEL_DEFAULT_LOCALE = "en"
     BABEL_DEFAULT_TIMEZONE = "UTC"
@@ -15,12 +15,14 @@ class Config():
 
 app = Flask(__name__)
 app.config.from_object(Config)
+app.url_map.strict_slashes = False
 babel = Babel(app)
 
 
 @babel.localeselector
-def get_locale():
-    """Function that gets the locale for a web page"""
+def get_locale() -> str:
+    """Function that Retrieves the locale for a web page.
+    """
     queries = request.query_string.decode('utf-8').split('&')
     query_table = dict(map(
         lambda x: (x if '=' in x else '{}='.format(x)).split('='),
@@ -29,14 +31,15 @@ def get_locale():
     if 'locale' in query_table:
         if query_table['locale'] in app.config["LANGUAGES"]:
             return query_table['locale']
-    return request.accept_languages.best_match(app.config['LANGUAGES'])
+    return request.accept_languages.best_match(app.config["LANGUAGES"])
 
 
-@app.route("/")
-def index():
-    """Index view"""
+@app.route('/')
+def get_index() -> str:
+    """The index page.
+    """
     return render_template('4-index.html')
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
